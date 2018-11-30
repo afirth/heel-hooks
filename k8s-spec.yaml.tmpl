@@ -1,0 +1,58 @@
+# deploys a web-app with anti-affinity to itself (never co-located on the same node) for HA
+# TODO, use helm for templating
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.Name }}
+  labels:
+    app: {{ .Values.Name }}
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: {{ .Values.Name }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.Name }}
+    spec:
+      affinity:
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+          - labelSelector:
+              matchExpressions:
+              - key: app
+                operator: In
+                values:
+                - {{ .Values.Name }}
+            topologyKey: "kubernetes.io/hostname"
+      containers:
+      - name: app
+        image: gcr.io/{{ .Values.Project.ID }}/{{ .Values.Name }}:latest
+        ports:
+        - containerPort: {{ .Values.Port }}
+
+---
+
+kind: Service
+apiVersion: v1
+metadata:
+  name: {{ .Values.Name }}
+spec:
+  selector:
+    app: {{ .Values.Name }}
+  ports:
+  - protocol: TCP
+    port: {{ .Values.Port }}
+    targetPort: {{ .Values.Port }}
+    
+---
+
+kind: Ingress
+apiVersion: extensions/v1beta1
+metadata:
+  name: {{ .Values.Name }}-ingress
+spec:
+  backend:
+    serviceName: {{ .Values.Name }}
+    servicePort: {{ .Values.Port }}
