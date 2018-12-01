@@ -6,11 +6,17 @@ SHELL=/bin/bash
 .SUFFIXES:
 
 REPO_NAME ?= $(notdir $(CURDIR))
+PORT ?= 8080
+
+all: build run
 
 build:
 	docker build --build-arg REPO_NAME=$(REPO_NAME) -t $(REPO_NAME):dev .
 
 run:
-	docker run -p 8080:8080 --rm $(REPO_NAME):dev
+	docker run \
+		-e HTTP_ADDR=':$(PORT)' \
+		-p $(PORT):$(PORT) \
+		--rm $(REPO_NAME):dev
 
-.PHONY: build run
+.PHONY: all build run
