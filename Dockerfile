@@ -5,7 +5,7 @@ RUN apk --no-cache add -t curl && \
   
 RUN mkdir /static && \
 curl http://unnecessaryheelhooks.com/chris_heelhook.jpg -o /static/chris_heelhook.jpg
-ADD . /src
+ADD ./src /src
 ARG REPO_NAME=undefined
 RUN mv /src /go/src/$REPO_NAME && \
   cd /go/src/$REPO_NAME && \
