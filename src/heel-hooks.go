@@ -13,6 +13,7 @@ func main() {
 	http.HandleFunc("/healthz", healthz)
 	http.HandleFunc("/readyz", readyz)
 	http.Handle("/static/", http.StripPrefix("/static/", fs))
+	http.HandleFunc("/", readyz)
 
 	log.Printf("HTTP service listening on %s", httpAddr)
 	if err := http.ListenAndServe(":8080", nil); err != nil {
