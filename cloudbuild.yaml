@@ -3,20 +3,20 @@ steps:
   entrypoint: 'bash'
   args: [
     '-c',
-    'docker pull gcr.io/$PROJECT_ID/$REPO_NAME:builder; docker pull gcr.io/$PROJECT_ID/$REPO_NAME:latest; true',
+    'docker pull gcr.io/$PROJECT_ID/$REPO_NAME:builder; docker pull gcr.io/$PROJECT_ID/$REPO_NAME:latest; true'
   ]
   
 # build the builder image
 - name: gcr.io/cloud-builders/docker
   args: [
     'build',
-    '--target', 'builder'
+    '--target', 'builder',
     '--cache-from', 'gcr.io/$PROJECT_ID/$REPO_NAME:builder',
     '--build-arg', 'REPO_NAME=$REPO_NAME',
     '-t', 'gcr.io/$PROJECT_ID/$REPO_NAME:builder',
     '.'
   ]
-  
+
 # build the final image
 - name: gcr.io/cloud-builders/docker
   args: [
