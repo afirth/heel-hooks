@@ -35,6 +35,7 @@ steps:
     'upgrade',
     '--install', 'heel-hooks',
     '--debug',
+    '--force',
     '--namespace', 'heel-hooks',
     '--set', 'image.repository=gcr.io/$PROJECT_ID/$REPO_NAME,image.tag=$SHORT_SHA',
     './helm/app/'
