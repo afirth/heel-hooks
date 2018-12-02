@@ -1,11 +1,28 @@
 steps:
 - name: gcr.io/cloud-builders/docker
-  args: [ 'pull', 'gcr.io/$PROJECT_ID/$REPO_NAME:latest' ]
+  entrypoint: 'bash'
+  args: [
+    '-c',
+    'docker pull gcr.io/$PROJECT_ID/$REPO_NAME:builder; docker pull gcr.io/$PROJECT_ID/$REPO_NAME:latest; true',
+  ]
+  
+# build the builder image
+- name: gcr.io/cloud-builders/docker
+  args: [
+    'build',
+    '--target', 'builder'
+    '--cache-from', 'gcr.io/$PROJECT_ID/$REPO_NAME:builder',
+    '--build-arg', 'REPO_NAME=$REPO_NAME',
+    '-t', 'gcr.io/$PROJECT_ID/$REPO_NAME:builder',
+    '.'
+  ]
+  
+# build the final image
 - name: gcr.io/cloud-builders/docker
   args: [
     'build',
     '--cache-from', 'gcr.io/$PROJECT_ID/$REPO_NAME:latest',
-    '--build-arg', 'REPO_NAME=$REPO_NAME',
+    '--cache-from', 'gcr.io/$PROJECT_ID/$REPO_NAME:builder',
     '-t', 'gcr.io/$PROJECT_ID/$REPO_NAME:latest',
     '-t', 'gcr.io/$PROJECT_ID/$REPO_NAME:$SHORT_SHA',
     '.'
@@ -27,4 +44,9 @@ steps:
   - 'CLOUDSDK_CONTAINER_CLUSTER=${_CONTAINER_CLUSTER}'
   - 'TILLER_NAMESPACE=${_TILLER_NAMESPACE}'
   - 'TILLERLESS=true'
-images: ['gcr.io/$PROJECT_ID/$REPO_NAME']
+images: [
+  #all needed?
+  'gcr.io/$PROJECT_ID/$REPO_NAME:latest'
+  'gcr.io/$PROJECT_ID/$REPO_NAME:builder'
+  'gcr.io/$PROJECT_ID/$REPO_NAME:$SHORT_SHA'
+  ]
