@@ -32,8 +32,8 @@ steps:
 # built with helm 2.11.0
 - name: 'gcr.io/$PROJECT_ID/helm'
   args: [
-    'upgrade',
-    '--install', 'heel-hooks',
+    'install',
+    'heel-hooks',
     '--debug',
     '--namespace', 'heel-hooks',
     '--set', 'image.repository=gcr.io/$PROJECT_ID/$REPO_NAME,image.tag=$SHORT_SHA',
