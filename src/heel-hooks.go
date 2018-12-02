@@ -16,7 +16,7 @@ func main() {
 	http.HandleFunc("/", readyz)
 
 	log.Printf("HTTP service listening on %s", httpAddr)
-	if err := http.ListenAndServe(":8080", nil); err != nil {
+	if err := http.ListenAndServe(httpAddr, nil); err != nil {
 		log.Fatal("ListenAndServe: ", err)
 	}
 }

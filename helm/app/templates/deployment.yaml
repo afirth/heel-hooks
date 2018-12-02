@@ -24,8 +24,8 @@ spec:
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           env:
-            - name: HTTP_PORT
-              value: "80"
+            - name: HTTP_ADDR
+              value: ":80"
           ports:
             - name: http
               containerPort: 80
