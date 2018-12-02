@@ -1,6 +1,6 @@
 steps:
 - name: gcr.io/cloud-builders/docker
-  args: ['build', '--build-arg', 'REPO_NAME=$REPO_NAME', '-t', 'gcr.io/$PROJECT_ID/$REPO_NAME:latest', '-t', 'gcr.io/$PROJECT_ID/$REPO_NAME:$SHORT_SHA', '.']
+  args: ['build', --cache-from', 'gcr.io/$PROJECT_ID/$REPO_NAME:latest', --build-arg', 'REPO_NAME=$REPO_NAME', '-t', 'gcr.io/$PROJECT_ID/$REPO_NAME:latest', '-t', 'gcr.io/$PROJECT_ID/$REPO_NAME:$SHORT_SHA', '.']
 
 # uses https://github.com/afirth/cloud-builders-community/tree/master/helm,
 # built with helm 2.11.0
