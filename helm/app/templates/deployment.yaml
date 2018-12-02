@@ -58,8 +58,8 @@ spec:
             - topologyKey: "kubernetes.io/hostname"
               labelSelector:
                 matchLabels:
-									app.kubernetes.io/name: {{ include "app.name" . }}
-									app.kubernetes.io/instance: {{ .Release.Name }}
+                  app.kubernetes.io/name: {{ include "app.name" . }}
+                  app.kubernetes.io/instance: {{ .Release.Name }}
         {{- else if eq .Values.antiAffinity "soft" }}
         podAntiAffinity:
           preferredDuringSchedulingIgnoredDuringExecution:
@@ -68,6 +68,6 @@ spec:
                 topologyKey: kubernetes.io/hostname
                 labelSelector:
                   matchLabels:
-										app.kubernetes.io/name: {{ include "app.name" . }}
-										app.kubernetes.io/instance: {{ .Release.Name }}
+                    app.kubernetes.io/name: {{ include "app.name" . }}
+                    app.kubernetes.io/instance: {{ .Release.Name }}
         {{- end }}
