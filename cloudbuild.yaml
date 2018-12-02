@@ -46,7 +46,8 @@ steps:
   - 'TILLERLESS=true'
 images: [
   #all needed?
-  'gcr.io/$PROJECT_ID/$REPO_NAME:latest'
-  'gcr.io/$PROJECT_ID/$REPO_NAME:builder'
-  'gcr.io/$PROJECT_ID/$REPO_NAME:$SHORT_SHA'
+  'gcr.io/$PROJECT_ID/$REPO_NAME'
+  # 'gcr.io/$PROJECT_ID/$REPO_NAME:latest'
+  # 'gcr.io/$PROJECT_ID/$REPO_NAME:builder'
+  # 'gcr.io/$PROJECT_ID/$REPO_NAME:$SHORT_SHA'
   ]
