@@ -1,11 +1,27 @@
 steps:
 - name: gcr.io/cloud-builders/docker
-  args: ['build', --cache-from', 'gcr.io/$PROJECT_ID/$REPO_NAME:latest', --build-arg', 'REPO_NAME=$REPO_NAME', '-t', 'gcr.io/$PROJECT_ID/$REPO_NAME:latest', '-t', 'gcr.io/$PROJECT_ID/$REPO_NAME:$SHORT_SHA', '.']
+  args: [ 'pull', 'gcr.io/$PROJECT_ID/$REPO_NAME:latest' ]
+- name: gcr.io/cloud-builders/docker
+  args: [
+    'build',
+    '--cache-from', 'gcr.io/$PROJECT_ID/$REPO_NAME:latest',
+    '--build-arg', 'REPO_NAME=$REPO_NAME',
+    '-t', 'gcr.io/$PROJECT_ID/$REPO_NAME:latest',
+    '-t', 'gcr.io/$PROJECT_ID/$REPO_NAME:$SHORT_SHA',
+    '.'
+  ]
 
 # uses https://github.com/afirth/cloud-builders-community/tree/master/helm,
 # built with helm 2.11.0
 - name: 'gcr.io/$PROJECT_ID/helm'
-  args: [ 'upgrade', '--install', 'heel-hooks', '--debug', '--namespace', 'heel-hooks', '--set', 'image.repository=gcr.io/$PROJECT_ID/$REPO_NAME,image.tag=$SHORT_SHA', './helm/app/' ]
+  args: [
+    'upgrade',
+    '--install', 'heel-hooks',
+    '--debug',
+    '--namespace', 'heel-hooks',
+    '--set', 'image.repository=gcr.io/$PROJECT_ID/$REPO_NAME,image.tag=$SHORT_SHA',
+    './helm/app/'
+    ]
   env:
   - 'CLOUDSDK_COMPUTE_ZONE=${_COMPUTE_ZONE}'
   - 'CLOUDSDK_CONTAINER_CLUSTER=${_CONTAINER_CLUSTER}'
