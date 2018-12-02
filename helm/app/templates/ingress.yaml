@@ -21,18 +21,18 @@ spec:
     - host: {{ $host }}
       http:
         paths:
-          - path: {{ $path }}
+          - path: {{ $ingressPath }}
             backend:
-              serviceName: {{ $serviceName }}
-              servicePort: {{ $servicePort }}
+              serviceName: {{ $fullName }}
+              servicePort: {{ http }}
   {{- end -}}
   {{- else }}
     - http:
         paths:
-          - path: {{ $ingress.path }}
+          - path: {{ $ingressPath }}
             backend:
-              serviceName: {{ $serviceName }}
-              servicePort: {{ $servicePort }}
+              serviceName: {{ $fullName }}
+              servicePort: {{ http }}
   {{- end -}}
   {{- if .Values.ingress.tls }}
   tls:
