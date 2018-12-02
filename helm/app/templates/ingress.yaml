@@ -29,7 +29,7 @@ spec:
   {{- else }}
     - http:
         paths:
-          - path: {{ $path }}
+          - path: {{ $ingress.path }}
             backend:
               serviceName: {{ $serviceName }}
               servicePort: {{ $servicePort }}
