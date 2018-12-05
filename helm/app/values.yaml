@@ -29,7 +29,7 @@ ingress:
 
   ## Ingress path
   ## Ignored if hosts: is defined
-  path: /
+  path: /*
 
   ## Kubernetes Dashboard Ingress hostnames
   ## May be omitted if only one host
