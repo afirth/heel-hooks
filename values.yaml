@@ -4,11 +4,6 @@
 
 replicaCount: 3
 
-image:
-  # set by cloudbuild
-  # repository: gcr.io/$PROJECT_ID/$REPO_NAME
-  # tag: $SHORT_SHA
-
 ingress:
   enabled: true
 

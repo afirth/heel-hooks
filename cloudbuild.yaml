@@ -40,7 +40,7 @@ steps:
     '-f', 'values.yaml',
     '--set', 'image.repository=gcr.io/$PROJECT_ID/$REPO_NAME',
     '--set', 'image.tag=$SHORT_SHA',
-    '--set', 'ingress.annotations."external-dns\.alpha.kubernetes\.io/hostname"=${_HOSTNAME}',
+    '--set', 'ingress.annotations."external-dns\.alpha\.kubernetes\.io/hostname"=${_HOSTNAME}',
     './helm/app/'
     ]
   env:
