@@ -37,6 +37,7 @@ steps:
     '--debug',
     '--force',
     '--namespace', 'heel-hooks',
+    '-f', 'values.yaml',
     '--set', 'image.repository=gcr.io/$PROJECT_ID/$REPO_NAME',
     '--set', 'image.tag=$SHORT_SHA',
     '--set', 'ingress.annotations."external-dns\.alpha.kubernetes\.io/hostname"=${_HOSTNAME}',
