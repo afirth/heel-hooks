@@ -2,12 +2,11 @@
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
-replicaCount: 3
+replicaCount: 1
 
 image:
-  # set by cloudbuild
-  # repository: gcr.io/$PROJECT_ID/$REPO_NAME
-  # tag: $SHORT_SHA
+  repository: gcr.io/project_id/repository
+  tag: latest
   pullPolicy: IfNotPresent
 
 nameOverride: ""
@@ -22,14 +21,15 @@ ingress:
 
   ## Ingress annotations
   ##
-  # annotations:
-  #   kubernetes.io/ingress.class: nginx
-  #   nginx.ingress.kubernetes.io/secure-backends: "true"
-  #   kubernetes.io/tls-acme: 'true'
+  annotations:
+     kubernetes.io/ingress.class: nginx
+     nginx.ingress.kubernetes.io/secure-backends: 'true'
+     kubernetes.io/tls-acme: 'true'
+
 
   ## Ingress path
   ## Ignored if hosts: is defined
-  path: /*
+  path: /
 
   ## Kubernetes Dashboard Ingress hostnames
   ## May be omitted if only one host
@@ -47,13 +47,7 @@ ingress:
   #       - foo.domain.com
 
 
-resources:
-   requests:
-    cpu: 100m
-    memory: 128Mi
-   limits:
-    cpu: 400m
-    memory: 256Mi
+resources: {}
 
 nodeSelector: {}
 

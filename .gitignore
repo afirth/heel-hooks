@@ -1,3 +1,6 @@
+*secrets.json
+*secrets.yaml
+
 # Binaries for programs and plugins
 *.exe
 *.exe~
