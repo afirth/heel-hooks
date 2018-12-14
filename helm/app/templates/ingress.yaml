@@ -11,16 +11,18 @@ metadata:
     app.kubernetes.io/managed-by: {{ .Release.Service }}
 
 {{- with .Values.ingress }}
+
   {{- if or .annotations .enableExternalDNS .acme }}
   annotations:
+{{ toYaml .annotations | indent 4 }}
   {{- end -}}
+
   {{- if .enableExternalDNS }}
     external-dns.alpha.kubernetes.io/hostname: {{ .host }}
   {{- end -}}
   {{- if .acme.issuer }}
     certmanager.k8s.io/{{ .acme.issuer.kind }}: {{ .acme.issuer.name }}
   {{- end -}}
-{{ toYaml .annotations | indent 4 }}
 
 spec:
   rules:
@@ -42,4 +44,7 @@ spec:
       hosts:
       - {{ .host }}
   {{- end -}}
+
+{{- end -}}
+
 {{- end -}}
