@@ -24,36 +24,38 @@ ingress:
   annotations:
      kubernetes.io/ingress.class: nginx
      nginx.ingress.kubernetes.io/secure-backends: 'true'
-     kubernetes.io/tls-acme: 'true'
 
+  # This chart is optimized for a service living on a single hostname
+  # This allows features like external-dns and certmanager to work out of the box
+  # All paths will map to ingress.host
+  host: "app.example.com"
+  paths:
+    - /
 
-  ## Ingress path
-  ## Ignored if hosts: is defined
-  path: /
-
-  ## Kubernetes Dashboard Ingress hostnames
-  ## May be omitted if only one host
-  ## Not sure if correct -AF 2018
-  # hosts:
-    # - foo.domain.com
-      # path: /blah
-
-  ## Ingress TLS configuration
-  ## Secrets must be manually created in the namespace
+  ## Ingress TLS configuration will be overridden if acme.enabled is true
+  ## Otherwise, secrets must be manually created in the namespace
   ##
   # tls:
-  #   - secretName: foo-tls
-  #     hosts:
+  #   - hosts:
   #       - foo.domain.com
+  #     secretName: foo-tls
 
+  ## Add annotation for external-dns
+  enableExternalDNS: false
 
-resources:
-  requests:
-    cpu: 100m
-    memory: 128Mi
-  limits:
-    cpu: 400m
-    memory: 256Mi
+  ## Currently supports certmanager only
+  #  acme:
+  #    issuer:
+  #      name: letsencrypt-staging
+  #      kind: clusterIssuer
+
+resources: {}
+  #  requests:
+  #    cpu: 100m
+  #    memory: 128Mi
+  #  limits:
+  #    cpu: 400m
+  #    memory: 256Mi
 
 nodeSelector: {}
 
