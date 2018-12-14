@@ -10,7 +10,7 @@ metadata:
     app.kubernetes.io/instance: {{ .Release.Name }}
     app.kubernetes.io/managed-by: {{ .Release.Service }}
 
-{{- with .Values.ingress }}
+{{- with .Values.ingress -}}
 
   {{- if or .annotations .enableExternalDNS .acme }}
   annotations:
@@ -22,12 +22,13 @@ metadata:
   {{- end -}}
   {{- if .acme.issuer }}
     certmanager.k8s.io/{{ .acme.issuer.kind }}: {{ .acme.issuer.name }}
-  {{- end -}}
+  {{- end }}
 
 spec:
   rules:
+  {{- $host := .host -}}
   {{- range $path := .paths }}
-    - host: {{ .host }}
+    - host: {{ $host }}
       http:
         paths:
           - path: {{ $path }}
@@ -38,11 +39,11 @@ spec:
   {{- if .tls }}
   tls:
 {{ toYaml .tls | indent 4 }}
-  {{- else if .acme -}}
+  {{- else if .acme }}
   tls:
-    secretName: {{.host}}-{{.acme.issuer.name}}-tls
-      hosts:
+    - hosts:
       - {{ .host }}
+      secretName: {{.host}}-{{.acme.issuer.name}}-tls
   {{- end -}}
 
 {{- end -}}
