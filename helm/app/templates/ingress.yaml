@@ -17,23 +17,24 @@ metadata:
   {{- if .enableExternalDNS }}
     external-dns.alpha.kubernetes.io/hostname: {{ .host }}
   {{- end }}
-  {{- if .acme.issuer }}
+  {{- if .acme }}
     certmanager.k8s.io/{{ .acme.issuer.kind }}: {{ .acme.issuer.name }}
   {{- end }}
 {{ toYaml .annotations | indent 4 }}
   {{- end }}
 spec:
   rules:
-  {{- $host := .host -}}
-  {{- range $path := .paths }}
-    - host: {{ $host }}
-      http:
+    - http:
         paths:
+          {{- range $path := .paths }}
           - path: {{ $path }}
             backend:
               serviceName: {{ $fullName }}
               servicePort: http
-  {{- end }}
+          {{- end }}
+      {{- if .host }}
+      host: {{ .host }}
+      {{- end }}
   {{- if .tls }}
   tls:
 {{ toYaml .tls | indent 4 }}

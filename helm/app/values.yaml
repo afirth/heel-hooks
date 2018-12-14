@@ -25,10 +25,11 @@ ingress:
      kubernetes.io/ingress.class: nginx
      nginx.ingress.kubernetes.io/secure-backends: 'true'
 
-  # This chart is optimized for a service living on a single hostname
-  # This allows features like external-dns and certmanager to work out of the box
-  # All paths will map to ingress.host
-  host: "app.example.com"
+  ## This chart is optimized for a service living on a single hostname
+  ## This allows features like external-dns and certmanager to work out of the box
+  ## All paths will map to ingress.host if set
+
+  # host: "app.example.com"
   paths:
     - /
 

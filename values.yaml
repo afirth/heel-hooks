@@ -6,6 +6,10 @@ ingress:
 
   enableExternalDNS: true
   
+  host: "filled.by.cloudbuild"
+  paths:
+    - /
+      
   acme:
     issuer:
       name: letsencrypt-staging
