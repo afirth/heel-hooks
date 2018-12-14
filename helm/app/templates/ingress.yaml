@@ -14,16 +14,14 @@ metadata:
 
   {{- if or .annotations .enableExternalDNS .acme }}
   annotations:
-{{ toYaml .annotations | indent 4 }}
-  {{- end -}}
-
   {{- if .enableExternalDNS }}
     external-dns.alpha.kubernetes.io/hostname: {{ .host }}
-  {{- end -}}
+  {{- end }}
   {{- if .acme.issuer }}
     certmanager.k8s.io/{{ .acme.issuer.kind }}: {{ .acme.issuer.name }}
   {{- end }}
-
+{{ toYaml .annotations | indent 4 }}
+  {{- end }}
 spec:
   rules:
   {{- $host := .host -}}
@@ -35,7 +33,7 @@ spec:
             backend:
               serviceName: {{ $fullName }}
               servicePort: http
-  {{- end -}}
+  {{- end }}
   {{- if .tls }}
   tls:
 {{ toYaml .tls | indent 4 }}
@@ -44,7 +42,7 @@ spec:
     - hosts:
       - {{ .host }}
       secretName: {{.host}}-{{.acme.issuer.name}}-tls
-  {{- end -}}
+  {{- end }}
 
 {{- end -}}
 
