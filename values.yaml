@@ -13,7 +13,7 @@ ingress:
   acme:
     issuer:
       name: letsencrypt-staging
-      kind: clusterIssuer
+      kind: cluster-issuer
 
 
 resources:
