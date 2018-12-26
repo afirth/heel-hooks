@@ -12,7 +12,7 @@ ingress:
       
   acme:
     issuer:
-      name: lets-encrypt-prod
+      name: letsencrypt-prod
       kind: cluster-issuer
 
 
